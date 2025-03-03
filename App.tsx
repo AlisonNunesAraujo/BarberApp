@@ -1,9 +1,10 @@
-import { View, Text } from 'react-native'
-import Login from './src/pages/Login'
-import PriveRouts from './src/routs/prive'
 
+import PriveRouts from './src/routs/prive'
+import { NavigationContainer } from '@react-navigation/native'
 export default function App() {
   return (
-    <PriveRouts />
+    <NavigationContainer>
+     <PriveRouts/>
+    </NavigationContainer>
   )
 }
