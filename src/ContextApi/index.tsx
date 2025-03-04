@@ -17,7 +17,7 @@ type ChildrenProps = {
   user: {email: string; uid: string};
   logado: boolean;
   AddDocument: (info: Document) => Promise<void>;
-  listAgendas: TypeList[]
+  listAgendas: TypeList[];
 };
 
 type RegisterProps = {
@@ -31,18 +31,18 @@ type User = {
 };
 
 type Document = {
+  cliente: string;
   corte: string;
   valor: string;
   horario: string;
 };
 
- export interface TypeList   {
+export interface TypeList {
+  cliente: string;
   corte: string;
   valor: string;
   horario: string;
-};
-
-
+}
 
 export const AuthContext = createContext({} as ChildrenProps);
 
@@ -52,6 +52,7 @@ export default function Context({children}: PropsChildren) {
     uid: '',
   });
   const logado = user?.email && user?.uid;
+
   const [listAgendas, setListAgendas] = useState<TypeList[]>([]);
 
   useEffect(() => {
@@ -60,22 +61,22 @@ export default function Context({children}: PropsChildren) {
       getDocs(ref).then(snapshot => {
         let lista: TypeList[] = [];
 
-        snapshot.forEach(doc =>
+        snapshot.forEach(doc => {
           lista.push({
+            cliente: doc.data().cliente,
             corte: doc.data().corte,
             valor: doc.data().valor,
             horario: doc.data().horario,
-          }),
-        );
+          });
+        });
+
         setListAgendas(lista);
-        console.log(lista)
       });
     }
 
-    HendleAgendas()
-  }, []);
+    HendleAgendas();
+  }, [AddDocument]);
 
- 
   async function Register({email, senha}: RegisterProps) {
     const data = await createUserWithEmailAndPassword(auth, email, senha)
       .then(() => {
@@ -99,9 +100,10 @@ export default function Context({children}: PropsChildren) {
     }
   }
 
-  async function AddDocument({corte, horario, valor}: Document) {
+  async function AddDocument({corte, horario, valor, cliente}: Document) {
     try {
       const response = await addDoc(collection(db, 'Agendas'), {
+        cliente: cliente,
         corte: corte,
         valor: valor,
         horario: horario,

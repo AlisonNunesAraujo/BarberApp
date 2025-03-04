@@ -21,16 +21,17 @@ export default function AgendasAdd() {
   const navigaton = useNavigation();
   const {AddDocument} = useContext(AuthContext);
 
+  const [cliente, setCliente] = useState('');
   const [corte, setCorte] = useState('');
   const [valor, setValor] = useState('');
   const [horario, setHorario] = useState('');
 
   async function Add() {
-    if (corte == '' || valor == '' || horario == '') {
+    if (corte == '' || valor == '' || horario == '' || cliente == '') {
       Alert.alert('Preencha os campos ');
       return;
     }
-    AddDocument({corte, valor, horario});
+    AddDocument({corte, valor, horario, cliente});
   }
 
   return (
@@ -62,7 +63,13 @@ export default function AgendasAdd() {
           <View>
             <Text style={s.TitleareaAdd}>Preencha os dodos!</Text>
             <TextInput
-              placeholder="Corte de cabelo"
+              placeholder="Cliente"
+              value={cliente}
+              onChangeText={setCliente}
+              style={s.inputs}
+            />
+            <TextInput
+              placeholder="Serviço"
               value={corte}
               onChangeText={setCorte}
               style={s.inputs}
@@ -71,14 +78,13 @@ export default function AgendasAdd() {
               placeholder="Valor"
               value={valor}
               onChangeText={setValor}
-              keyboardType='numeric'
+              keyboardType="numeric"
               style={s.inputs}
             />
             <TextInput
               placeholder="Horario"
               value={horario}
               onChangeText={setHorario}
-              
               style={s.inputs}
             />
             <TouchableOpacity style={s.bntAgendar} onPress={Add}>
