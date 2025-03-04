@@ -1,13 +1,15 @@
 import { useState } from "react"
-import Home from "../pages/home"
-import Login from "../pages/Login"
+import Logar from "../pages/Login"
 import NavigationStack from "./auth"
 
+import { useContext } from "react"
+import { AuthContext } from "../ContextApi"
 export default function PriveRouts() {
-    const [user, setUser] = useState(true)
+    const {logado} = useContext(AuthContext)
+
     return (
 
-        user ? <NavigationStack /> : <Login />
+        logado ? <NavigationStack /> : <Logar />
 
 
     )

@@ -6,22 +6,19 @@ import {Routs} from '../../routs/auth';
 export default function AddAgenda() {
   const nav = useNavigation<NativeStackNavigationProp<Routs>>();
 
-  function Navegar(){
-    nav.navigate('Agendas')
-  }
-
-
   return (
     <View style={s.areaAddAgenda}>
       <Text style={s.TitleareaAgenda}>Bem vindo!</Text>
 
       <TouchableOpacity
         style={s.bntAgendar}
-        onPress={Navegar}>
+        onPress={() => nav.navigate('Agendas')}>
         <Text style={s.textbntAgendar}>Agendar um corte!</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={s.bntAgendar}>
+      <TouchableOpacity
+        style={s.bntAgendar}
+        onPress={() => nav.navigate('VerAgendas')}>
         <Text style={s.textbntAgendar}>Verificar agenda</Text>
       </TouchableOpacity>
     </View>

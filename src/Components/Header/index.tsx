@@ -1,6 +1,9 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useContext } from 'react';
+import { AuthContext } from '../../ContextApi';
 
 export default function Header() {
+    const {user} = useContext(AuthContext)
     return (
         <View style={s.Header}>
             <View style={s.Headertitle}>

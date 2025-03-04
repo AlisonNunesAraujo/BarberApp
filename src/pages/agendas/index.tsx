@@ -8,12 +8,30 @@ import {
   SafeAreaView,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from 'react-native';
+
 import {useNavigation} from '@react-navigation/native';
 import Feather from '@react-native-vector-icons/feather';
+import {useContext} from 'react';
+import {AuthContext} from '../../ContextApi';
+
 export default function AgendasAdd() {
   const [isShow, setShow] = useState(false);
   const navigaton = useNavigation();
+  const {AddDocument} = useContext(AuthContext);
+
+  const [corte, setCorte] = useState('');
+  const [valor, setValor] = useState('');
+  const [horario, setHorario] = useState('');
+
+  async function Add() {
+    if (corte == '' || valor == '' || horario == '') {
+      Alert.alert('Preencha os campos ');
+      return;
+    }
+    AddDocument({corte, valor, horario});
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -43,10 +61,27 @@ export default function AgendasAdd() {
         {isShow ? (
           <View>
             <Text style={s.TitleareaAdd}>Preencha os dodos!</Text>
-            <TextInput placeholder="Corte de cabelo" style={s.inputs} />
-            <TextInput placeholder="Valor" style={s.inputs} />
-            <TextInput placeholder="Horario" style={s.inputs} />
-            <TouchableOpacity style={s.bntAgendar}>
+            <TextInput
+              placeholder="Corte de cabelo"
+              value={corte}
+              onChangeText={setCorte}
+              style={s.inputs}
+            />
+            <TextInput
+              placeholder="Valor"
+              value={valor}
+              onChangeText={setValor}
+              keyboardType='numeric'
+              style={s.inputs}
+            />
+            <TextInput
+              placeholder="Horario"
+              value={horario}
+              onChangeText={setHorario}
+              
+              style={s.inputs}
+            />
+            <TouchableOpacity style={s.bntAgendar} onPress={Add}>
               <Text style={s.Textbuttom}>Agendar</Text>
             </TouchableOpacity>
             <TouchableOpacity
