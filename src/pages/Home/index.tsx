@@ -1,10 +1,13 @@
-import {View, Text, SafeAreaView, StyleSheet,TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+} from 'react-native';
 import Header from '../../Components/Header';
 import AddAgenda from '../../Components/AddAgenda';
 import {useNavigation} from '@react-navigation/native';
 import {StatusBar} from 'react-native';
-
-
 
 export default function Home() {
   const nav = useNavigation();
@@ -15,8 +18,6 @@ export default function Home() {
         <Header />
         <AddAgenda />
       </View>
-
-     
     </SafeAreaView>
   );
 }

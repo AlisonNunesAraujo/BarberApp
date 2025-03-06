@@ -26,7 +26,7 @@ export default function NavigationStack() {
         component={Agendas}
         options={{title: 'Adicione suas agendas', headerShown: false}}
       />
-      <Stack.Screen name='VerAgendas' component={VerAgendas} />
+      <Stack.Screen name='VerAgendas' component={VerAgendas} options={{headerShown: false}}/>
     </Stack.Navigator>
   );
 }

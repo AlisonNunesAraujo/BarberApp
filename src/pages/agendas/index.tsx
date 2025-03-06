@@ -115,9 +115,10 @@ const s = StyleSheet.create({
     backgroundColor: 'black',
     padding: 20,
     gap: 20,
+    alignItems: 'center'
   },
   TitleHader: {
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: 'Arial',
     fontWeight: 'bold',
     color: 'white',
@@ -164,7 +165,6 @@ const s = StyleSheet.create({
     width: '100%',
     height: '50%',
     alignItems: 'center',
-    justifyContent: 'center',
     flexDirection: 'row',
     gap: 5,
   },
