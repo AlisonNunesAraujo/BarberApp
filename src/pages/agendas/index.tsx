@@ -22,16 +22,16 @@ export default function AgendasAdd() {
   const {AddDocument} = useContext(AuthContext);
 
   const [cliente, setCliente] = useState('');
-  const [corte, setCorte] = useState('');
+  const [serviço, setServiço] = useState('');
   const [valor, setValor] = useState('');
   const [horario, setHorario] = useState('');
 
   async function Add() {
-    if (corte == '' || valor == '' || horario == '' || cliente == '') {
+    if (serviço == '' || valor == '' || horario == '' || cliente == '') {
       Alert.alert('Preencha os campos ');
       return;
     }
-    AddDocument({corte, valor, horario, cliente});
+    AddDocument({serviço, valor, horario, cliente});
   }
 
   return (
@@ -70,8 +70,8 @@ export default function AgendasAdd() {
             />
             <TextInput
               placeholder="Serviço"
-              value={corte}
-              onChangeText={setCorte}
+              value={serviço}
+              onChangeText={setServiço}
               style={s.inputs}
             />
             <TextInput
@@ -115,7 +115,7 @@ const s = StyleSheet.create({
     backgroundColor: 'black',
     padding: 20,
     gap: 20,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   TitleHader: {
     fontSize: 16,

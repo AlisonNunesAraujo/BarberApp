@@ -4,8 +4,9 @@ import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../Firebase/connectionApi';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {Alert, FlatList} from 'react-native';
-import {collection, addDoc, getDocs, query, where} from 'firebase/firestore';
+import {collection, addDoc, getDocs, query, where, doc} from 'firebase/firestore';
 import {db} from '../Firebase/connectionApi';
+import { deleteDoc } from 'firebase/firestore';
 
 interface PropsChildren {
   children: ReactNode;
@@ -18,6 +19,7 @@ type ChildrenProps = {
   logado: boolean;
   AddDocument: (info: Document) => Promise<void>;
   listAgendas: TypeList[];
+  deletarAgenda: (info: {uid: string}) => Promise<void>
 };
 
 type RegisterProps = {
@@ -32,16 +34,17 @@ type User = {
 
 type Document = {
   cliente: string;
-  corte: string;
+  serviço: string;
   valor: string;
   horario: string;
 };
 
 export interface TypeList {
   cliente: string;
-  corte: string;
+  serviço: string;
   valor: string;
   horario: string;
+  uid: string
 }
 
 export const AuthContext = createContext({} as ChildrenProps);
@@ -64,9 +67,10 @@ export default function Context({children}: PropsChildren) {
         snapshot.forEach(doc => {
           lista.push({
             cliente: doc.data().cliente,
-            corte: doc.data().corte,
+            serviço: doc.data().serviço,
             valor: doc.data().valor,
             horario: doc.data().horario,
+            uid: doc.id
           });
         });
 
@@ -100,11 +104,11 @@ export default function Context({children}: PropsChildren) {
     }
   }
 
-  async function AddDocument({corte, horario, valor, cliente}: Document) {
+  async function AddDocument({serviço, horario, valor, cliente}: Document) {
     try {
       const response = await addDoc(collection(db, 'Agendas'), {
         cliente: cliente,
-        corte: corte,
+        serviço: serviço,
         valor: valor,
         horario: horario,
       });
@@ -115,9 +119,19 @@ export default function Context({children}: PropsChildren) {
     }
   }
 
+  async function deletarAgenda({uid}: {uid:string}){
+    try{
+      const data =  doc(db, 'Agendas', uid)
+      await deleteDoc(data)
+    }
+    catch{
+      Alert.alert('erro')
+    }
+  } 
+
   return (
     <AuthContext.Provider
-      value={{Register, Login, user, logado, AddDocument, listAgendas}}>
+      value={{Register, Login, user, logado, AddDocument, listAgendas,deletarAgenda}}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import {AuthContext} from '../../ContextApi';
 import {FlatList} from 'react-native';
 import Feather from '@react-native-vector-icons/feather';
@@ -7,8 +7,14 @@ import {useNavigation} from '@react-navigation/native';
 
 
 export default function VerAgendas() {
-  const {listAgendas} = useContext(AuthContext);
+  const {listAgendas,deletarAgenda} = useContext(AuthContext);
   const navigation = useNavigation();
+
+
+  async function DeleteDocument(uid: string) {
+    deletarAgenda({uid})
+    Alert.alert('ok')
+  }
 
   return (
     <View style={s.conteiner}>
@@ -27,10 +33,10 @@ export default function VerAgendas() {
           renderItem={({item}) => (
             <View style={s.flat}>
               <Text style={s.TextFlat}>Cliente: {item.cliente}</Text>
-              <Text style={s.TextFlat}>Corte: {item.corte}</Text>
+              <Text style={s.TextFlat}>Serviço: {item.serviço}</Text>
               <Text style={s.TextFlat}>Horario: {item.horario}</Text>
               <Text style={s.TextFlat}>Valor: {item.valor}</Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => DeleteDocument(item.uid)}>
                 <Feather name="trash" size={20} />
               </TouchableOpacity>
             </View>
