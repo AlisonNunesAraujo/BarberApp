@@ -66,18 +66,22 @@ export default function AgendasAdd() {
               placeholder="Cliente"
               value={cliente}
               onChangeText={setCliente}
+              placeholderTextColor={'black'}
               style={s.inputs}
             />
             <TextInput
               placeholder="Serviço"
               value={serviço}
               onChangeText={setServiço}
+              placeholderTextColor={'black'}
               style={s.inputs}
+              
             />
             <TextInput
               placeholder="Valor"
               value={valor}
               onChangeText={setValor}
+              placeholderTextColor={'black'}
               keyboardType="numeric"
               style={s.inputs}
             />
@@ -85,6 +89,7 @@ export default function AgendasAdd() {
               placeholder="Horario"
               value={horario}
               onChangeText={setHorario}
+              placeholderTextColor={'black'}
               style={s.inputs}
             />
             <TouchableOpacity style={s.bntAgendar} onPress={Add}>

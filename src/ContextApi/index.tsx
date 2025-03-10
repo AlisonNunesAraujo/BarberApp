@@ -99,6 +99,7 @@ export default function Context({children}: PropsChildren) {
         email: data.user.email,
         uid: data.user.uid,
       });
+      
     } catch (ert) {
       Alert.alert('err');
     }

@@ -37,7 +37,7 @@ export default function VerAgendas() {
               <Text style={s.TextFlat}>Horario: {item.horario}</Text>
               <Text style={s.TextFlat}>Valor: {item.valor}</Text>
               <TouchableOpacity onPress={() => DeleteDocument(item.uid)}>
-                <Feather name="trash" size={20} />
+                <Feather name="trash" size={20} color={'white'}/>
               </TouchableOpacity>
             </View>
           )}
@@ -81,8 +81,8 @@ const s = StyleSheet.create({
     gap: 5,
     margin: 5,
     marginBottom: 20,
-    backgroundColor: 'blue',
-    padding: 5,
+    backgroundColor: '#1C1C1C',
+    padding: 10,
     borderRadius: 5,
 
   },
@@ -92,4 +92,7 @@ const s = StyleSheet.create({
     fontFamily: 'Arial',
     fontSize: 17,
   },
+  iconEcluir:{
+    backgroundColor: 'white'
+  }
 });

@@ -28,7 +28,7 @@ export default function AddAgenda() {
 const s = StyleSheet.create({
   areaAddAgenda: {
     width: '90%',
-    backgroundColor: 'white',
+    backgroundColor: '#1C1C1C',
     padding: 20,
     marginTop: 30,
     marginLeft: '5%',
@@ -38,6 +38,7 @@ const s = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Arial',
     fontWeight: 'bold',
+    color:'white'
   },
   bntAgendar: {
     width: '50%',
