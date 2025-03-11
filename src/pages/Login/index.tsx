@@ -8,36 +8,33 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  SafeAreaView
 } from 'react-native';
 
-import {auth} from '../../Firebase/connectionApi';
-import {signInWithEmailAndPassword} from 'firebase/auth';
 
-import { useContext } from 'react';
-import { AuthContext } from '../../ContextApi';
-
+import {useContext} from 'react';
+import {AuthContext} from '../../ContextApi';
 
 export default function Logar() {
   const [isShow, setisShow] = useState(false);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const {Register,Login} = useContext(AuthContext)
+  const {Register, Login} = useContext(AuthContext);
 
   async function createAccount() {
-    Register({email,senha});
-    setEmail('')
-    setSenha('')
-
+    Register({email, senha});
+    setEmail('');
+    setSenha('');
   }
 
   async function AcessLogin() {
-    Login({email,senha});
+    Login({email, senha});
   }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={s.conteiner}>
+      <SafeAreaView style={s.conteiner}>
         {isShow ? (
           <View style={s.formulaio}>
             <Text style={s.TitleLogin}>Crie sua conta!</Text>
@@ -45,12 +42,15 @@ export default function Logar() {
               placeholder="Email"
               value={email}
               onChangeText={setEmail}
+              placeholderTextColor={'black'}
               style={s.inputs}
             />
             <TextInput
               placeholder="****"
               value={senha}
+              secureTextEntry
               onChangeText={setSenha}
+              placeholderTextColor={'black'}
               style={s.inputs}
             />
             <TouchableOpacity style={s.buttom} onPress={createAccount}>
@@ -69,8 +69,21 @@ export default function Logar() {
         ) : (
           <View style={s.formulaio}>
             <Text style={s.TitleLogin}>Entre na sua conta!</Text>
-            <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={s.inputs} />
-            <TextInput placeholder="****" value={senha}  onChangeText={setSenha} style={s.inputs} />
+            <TextInput
+              placeholder="Email"
+              value={email}
+              placeholderTextColor={'black'}
+              onChangeText={setEmail}
+              style={s.inputs}
+            />
+            <TextInput
+              placeholder="****"
+              value={senha}
+              secureTextEntry
+              placeholderTextColor={'black'}
+              onChangeText={setSenha}
+              style={s.inputs}
+            />
             <TouchableOpacity style={s.buttom} onPress={AcessLogin}>
               <Text style={s.textbntEntrar}>Entrar na conta!</Text>
             </TouchableOpacity>
@@ -85,7 +98,12 @@ export default function Logar() {
             </TouchableOpacity>
           </View>
         )}
-      </View>
+        <View style={s.areaTextBarebrPro}>
+          <Text style={s.textBarberPro}>
+            Barber<Text style={s.TextPro}>Pro</Text>
+          </Text>
+        </View>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 }
@@ -93,7 +111,7 @@ export default function Logar() {
 const s = StyleSheet.create({
   conteiner: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'black',
   },
   formulaio: {
     width: '100%',
@@ -101,6 +119,8 @@ const s = StyleSheet.create({
     padding: 20,
     backgroundColor: '#ccc',
     overflow: 'hidden',
+    borderEndEndRadius: 15,
+    borderBottomStartRadius: 15,
   },
   TitleLogin: {
     fontSize: 20,
@@ -143,5 +163,20 @@ const s = StyleSheet.create({
   textcriarConta2: {
     color: 'red',
     fontFamily: 'Arial',
+  },
+  areaTextBarebrPro: {
+    width: '100%',
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textBarberPro: {
+    fontFamily: 'Arial',
+    fontSize: 60,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  TextPro: {
+    color: 'red',
   },
 });

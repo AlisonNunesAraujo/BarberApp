@@ -6,8 +6,14 @@ import Feather from '@react-native-vector-icons/feather';
 import {useNavigation} from '@react-navigation/native';
 
 export default function Profile() {
-  const {user} = useContext(AuthContext);
+  const {user,LogOut} = useContext(AuthContext);
   const navigation = useNavigation();
+
+  async function singOut(){
+    LogOut()
+  }
+
+
   return (
     <View style={s.conteiner}>
       <View style={s.cabeçalho}>
@@ -29,9 +35,11 @@ export default function Profile() {
         </View>
       </View>
 
-      <TouchableOpacity style={s.buttomSair}>
-        <Text style={s.textButtomSair}>Sair da conta!</Text>
-      </TouchableOpacity>
+      <View style={s.areabntSair}>
+        <TouchableOpacity style={s.buttomSair} onPress={singOut}>
+          <Text style={s.textButtomSair}>Sair da conta!</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -67,19 +75,28 @@ const s = StyleSheet.create({
     marginTop: '20%',
   },
   buttomSair: {
-    width: '100%',
+    width: '50%',
     padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 3,
+    backgroundColor: 'red',
+  },
+  textButtomSair: {
+    fontFamily: 'Arial',
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  areabntSair: {
+    width: '100%',
+    height: 100,
     bottom: '5%',
     left: 0,
-    backgroundColor: 'white',
     position: 'absolute',
     marginLeft: 'auto',
     marginRight: 'auto',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 3,
-  },
-  textButtomSair: {
-    fontFamily: 'Arial',
   },
 });

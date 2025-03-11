@@ -32,6 +32,10 @@ export default function AgendasAdd() {
       return;
     }
     AddDocument({serviço, valor, horario, cliente});
+    setCliente('')
+    setHorario('')
+    setServiço('')
+    setValor('')
   }
 
   return (

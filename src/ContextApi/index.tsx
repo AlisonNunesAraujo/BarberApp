@@ -3,10 +3,18 @@ import {ReactNode} from 'react';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../Firebase/connectionApi';
 import {signInWithEmailAndPassword} from 'firebase/auth';
-import {Alert, FlatList} from 'react-native';
-import {collection, addDoc, getDocs, query, where, doc} from 'firebase/firestore';
+import {Alert} from 'react-native';
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  doc,
+} from 'firebase/firestore';
 import {db} from '../Firebase/connectionApi';
-import { deleteDoc } from 'firebase/firestore';
+import {deleteDoc} from 'firebase/firestore';
+import {signOut} from 'firebase/auth';
 
 interface PropsChildren {
   children: ReactNode;
@@ -19,7 +27,8 @@ type ChildrenProps = {
   logado: boolean;
   AddDocument: (info: Document) => Promise<void>;
   listAgendas: TypeList[];
-  deletarAgenda: (info: {uid: string}) => Promise<void>
+  deletarAgenda: (info: {uid: string}) => Promise<void>;
+  LogOut: () => Promise<void>;
 };
 
 type RegisterProps = {
@@ -44,7 +53,7 @@ export interface TypeList {
   serviço: string;
   valor: string;
   horario: string;
-  uid: string
+  uid: string;
 }
 
 export const AuthContext = createContext({} as ChildrenProps);
@@ -70,7 +79,7 @@ export default function Context({children}: PropsChildren) {
             serviço: doc.data().serviço,
             valor: doc.data().valor,
             horario: doc.data().horario,
-            uid: doc.id
+            uid: doc.id,
           });
         });
 
@@ -99,7 +108,6 @@ export default function Context({children}: PropsChildren) {
         email: data.user.email,
         uid: data.user.uid,
       });
-      
     } catch (ert) {
       Alert.alert('err');
     }
@@ -120,19 +128,41 @@ export default function Context({children}: PropsChildren) {
     }
   }
 
-  async function deletarAgenda({uid}: {uid:string}){
-    try{
-      const data =  doc(db, 'Agendas', uid)
-      await deleteDoc(data)
+  async function deletarAgenda({uid}: {uid: string}) {
+    try {
+      const data = doc(db, 'Agendas', uid);
+      await deleteDoc(data);
+    } catch {
+      Alert.alert('erro');
     }
-    catch{
-      Alert.alert('erro')
-    }
-  } 
+  }
+
+  async function LogOut() {
+    signOut(auth)
+      .then(() => {
+        Alert.alert('saiu');
+      })
+      .catch(() => {
+        Alert.alert('erro');
+      });
+    setUser({
+      email: '',
+      uid: '',
+    });
+  }
 
   return (
     <AuthContext.Provider
-      value={{Register, Login, user, logado, AddDocument, listAgendas,deletarAgenda}}>
+      value={{
+        Register,
+        Login,
+        user,
+        logado,
+        AddDocument,
+        listAgendas,
+        deletarAgenda,
+        LogOut,
+      }}>
       {children}
     </AuthContext.Provider>
   );
