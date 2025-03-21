@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,39 +9,49 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Alert,
+  FlatList
 } from 'react-native';
+import { Picker } from '@react-native-picker/picker'
 
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Feather from '@react-native-vector-icons/feather';
-import {useContext} from 'react';
-import {AuthContext} from '../../ContextApi';
+import { useContext } from 'react';
+import { AuthContext } from '../../ContextApi';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../Firebase/connectionApi';
+import { getDocs } from 'firebase/firestore';
+
 
 export default function AgendasAdd() {
   const [isShow, setShow] = useState(false);
   const navigaton = useNavigation();
-  const {AddDocument} = useContext(AuthContext);
+  const { AddDocument } = useContext(AuthContext);
 
   const [cliente, setCliente] = useState('');
   const [serviço, setServiço] = useState('');
   const [valor, setValor] = useState('');
   const [horario, setHorario] = useState('');
 
+
   async function Add() {
-    if (serviço == '' || valor == '' || horario == '' || cliente == '') {
+    if (valor == '' || horario == '' || cliente == '') {
       Alert.alert('Preencha os campos ');
       return;
     }
-    AddDocument({serviço, valor, horario, cliente});
+    AddDocument({ serviço, valor, horario, cliente });
     setCliente('')
     setHorario('')
     setServiço('')
     setValor('')
   }
 
+ 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView style={s.conteiner}>
         <View style={s.header}>
+
+
           <View style={s.areaHeader}>
             <TouchableOpacity
               style={s.bntVoltar}
@@ -73,14 +83,16 @@ export default function AgendasAdd() {
               placeholderTextColor={'black'}
               style={s.inputs}
             />
+
             <TextInput
               placeholder="Serviço"
               value={serviço}
               onChangeText={setServiço}
               placeholderTextColor={'black'}
               style={s.inputs}
-              
             />
+
+
             <TextInput
               placeholder="Valor"
               value={valor}
@@ -108,6 +120,8 @@ export default function AgendasAdd() {
         ) : (
           <Text></Text>
         )}
+
+       
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -148,13 +162,14 @@ const s = StyleSheet.create({
 
   inputs: {
     width: '90%',
-    padding: 10,
     marginLeft: '5%',
     marginTop: 20,
     borderRadius: 2,
-    boxShadow: '0px 1px 1px 0px',
     backgroundColor: '#ccc',
+    marginBottom: 10,
+    color: 'black'
   },
+
   bntAgendar: {
     width: '90%',
     justifyContent: 'center',

@@ -17,6 +17,8 @@ export default function Home() {
       <View>
         <Header />
         <AddAgenda />
+
+        
       </View>
     </SafeAreaView>
   );

@@ -15,46 +15,9 @@ import {
 import {db} from '../Firebase/connectionApi';
 import {deleteDoc} from 'firebase/firestore';
 import {signOut} from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-interface PropsChildren {
-  children: ReactNode;
-}
-
-type ChildrenProps = {
-  Register: (info: RegisterProps) => Promise<void>;
-  Login: (info: RegisterProps) => Promise<void>;
-  user: {email: string; uid: string};
-  logado: boolean;
-  AddDocument: (info: Document) => Promise<void>;
-  listAgendas: TypeList[];
-  deletarAgenda: (info: {uid: string}) => Promise<void>;
-  LogOut: () => Promise<void>;
-};
-
-type RegisterProps = {
-  email: string;
-  senha: string;
-};
-
-type User = {
-  email: string | any;
-  uid: string;
-};
-
-type Document = {
-  cliente: string;
-  serviço: string;
-  valor: string;
-  horario: string;
-};
-
-export interface TypeList {
-  cliente: string;
-  serviço: string;
-  valor: string;
-  horario: string;
-  uid: string;
-}
+import {Document,RegisterProps,TypeList,User,ChildrenProps,PropsChildren} from './types'
 
 export const AuthContext = createContext({} as ChildrenProps);
 
@@ -68,6 +31,22 @@ export default function Context({children}: PropsChildren) {
   const [listAgendas, setListAgendas] = useState<TypeList[]>([]);
 
   useEffect(() => {
+
+    async function VerUser() {
+      try{
+        AsyncStorage.getItem('@dadosAppBarber').then((data) => {
+          if (data) {
+            setUser(JSON.parse(data));
+          }
+        });
+      }
+      catch{
+        Alert.alert('erro')
+      }
+    }
+
+    VerUser()
+
     async function HendleAgendas() {
       const ref = collection(db, 'Agendas');
       getDocs(ref).then(snapshot => {
@@ -88,6 +67,8 @@ export default function Context({children}: PropsChildren) {
     }
 
     HendleAgendas();
+
+     
   }, [AddDocument]);
 
   async function Register({email, senha}: RegisterProps) {
@@ -108,6 +89,13 @@ export default function Context({children}: PropsChildren) {
         email: data.user.email,
         uid: data.user.uid,
       });
+
+     const res = {
+      email: data.user.email,
+        uid: data.user.uid,
+     }
+
+       AsyncStorage.setItem('@dadosAppBarber', JSON.stringify(res))
     } catch (ert) {
       Alert.alert('err');
     }
@@ -138,6 +126,7 @@ export default function Context({children}: PropsChildren) {
   }
 
   async function LogOut() {
+    AsyncStorage.clear()
     signOut(auth)
       .then(() => {
         Alert.alert('saiu');
@@ -162,6 +151,7 @@ export default function Context({children}: PropsChildren) {
         listAgendas,
         deletarAgenda,
         LogOut,
+        
       }}>
       {children}
     </AuthContext.Provider>
