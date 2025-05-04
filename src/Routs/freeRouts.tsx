@@ -1,0 +1,36 @@
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import Home from '../Pages/Home';
+import CretaeAgendas from '../Pages/CretaeAgendas';
+import ViewAgendas from '../Pages/ViewAgendas';
+export type Props = {
+    Home: undefined;
+    CretaeAgendas: undefined;
+    ViewAgendas: undefined;
+}
+
+
+const StackRouts = createNativeStackNavigator<Props>();
+
+export default function FreeRouts() {
+    return (
+        <StackRouts.Navigator>
+            <StackRouts.Screen
+                name="Home"
+                component={Home}
+                options={{ headerShown: false }}
+            />
+            <StackRouts.Screen
+                name="CretaeAgendas"
+                component={CretaeAgendas}
+                options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <StackRouts.Screen
+                name="ViewAgendas"
+                component={ViewAgendas}
+                options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+        </StackRouts.Navigator>
+    );
+}
