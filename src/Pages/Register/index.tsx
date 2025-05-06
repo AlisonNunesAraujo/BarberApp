@@ -15,14 +15,20 @@ import { useContext } from 'react';
 import { AuthContext } from '../../contextApi/context';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase/conection'
+import { ka } from 'date-fns/locale';
 
 export default function Login() {
-    const { user } = useContext(AuthContext)
+    const { user, Login } = useContext(AuthContext)
     const [isFocuslogin, setIsfocuslogin] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    async function Teste() {
+    async function CreateAccount() {
+        Keyboard.dismiss()
+        if (email === '' || password === '') {
+            Alert.alert('Preencha todos os campos')
+            return
+        }
         const response = await createUserWithEmailAndPassword(auth, email, password)
             .then(() => {
                 Alert.alert('Ok')
@@ -33,10 +39,21 @@ export default function Login() {
             })
     }
 
+    async function Entrar() {
+        Keyboard.dismiss()
+        if (email === '' || password === '') {
+            Alert.alert('Preencha todos os campos')
+            return
+        }
+        Login({ email, password })
+
+
+    }
+
 
     return (
-        <SafeAreaView style={s.Register}>
-            <StatusBar backgroundColor={'white'} />
+        <SafeAreaView style={s.Register} >
+            <StatusBar barStyle={'light-content'} />
             {isFocuslogin ? (
                 <View style={s.form}>
                     <Text style={s.title}>Crie uma conta </Text>
@@ -55,7 +72,7 @@ export default function Login() {
                         style={s.inputs}
                     />
 
-                    <TouchableOpacity style={s.button} onPress={Teste}>
+                    <TouchableOpacity style={s.button} onPress={CreateAccount}>
                         <Text style={s.textButon}>Criar a sua conta!</Text>
                     </TouchableOpacity>
                     <Pressable
@@ -81,7 +98,7 @@ export default function Login() {
                         onChangeText={setPassword}
                         style={s.inputs}
                     />
-                    <TouchableOpacity style={s.button} onPress={Teste}>
+                    <TouchableOpacity style={s.button} onPress={Entrar} >
                         <Text style={s.textButon}>Entrar</Text>
                     </TouchableOpacity>
                     <Pressable

@@ -5,7 +5,7 @@ import { View, Text, StyleSheet } from 'react-native';
 export default function Header() {
     return (
         <View style={s.header}>
-            <Text style={s.Title}>Agensdas Barbearia</Text>
+            <Text style={s.Title}>Agendas Barbearia</Text>
             <Text style={s.Icon}>Configurar</Text>
         </View>
     );

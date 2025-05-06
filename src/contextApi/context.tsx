@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
-import { createContext } from 'react';
-import { ReactNode } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase/conection';
-import { Alert } from 'react-native';
-import { collection } from 'firebase/firestore';
-import { db } from '../firebase/conection';
-import { addDoc, } from 'firebase/firestore';
-
-
+import React, { useState } from "react";
+import { createContext } from "react";
+import { ReactNode } from "react";
+import { auth } from "../firebase/conection";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Alert } from "react-native";
 type Tudo = {
-    user: any;
+    user: DateUser;
+    logado: boolean;
+    Login: ({
+        email,
+        password,
+    }: {
+        email: string;
+        password: string;
+    }) => Promise<void>;
 };
 
-
-
+type DateUser = {
+    email: string | null;
+    uid: string | null;
+};
 
 export const AuthContext = createContext({} as Tudo);
 
@@ -23,15 +28,35 @@ type Children = {
 };
 
 export default function Context({ children }: Children) {
+    const [user, setUser] = useState<DateUser>({
+        email: "",
+        uid: "",
+    });
+    const logado = !!user?.email && !!user?.uid;
 
-
-    const [user, setUser] = useState('alison');
-
-
+    async function Login({
+        email,
+        password,
+    }: {
+        email: string;
+        password: string;
+    }) {
+        const data = await signInWithEmailAndPassword(auth, email, password);
+        try {
+            setUser({
+                email: data.user.email,
+                uid: data.user.uid,
+            });
+            Alert.alert("Logado com sucesso");
+        } catch (error) {
+            console.log(error);
+            Alert.alert("Erro ao logar");
+        }
+    }
 
     return (
-        <AuthContext.Provider value={{ user }}>
+        <AuthContext.Provider value={{ user, logado, Login }}>
             {children}
         </AuthContext.Provider>
-    )
+    );
 }
