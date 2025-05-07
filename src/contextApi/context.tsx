@@ -4,16 +4,25 @@ import { ReactNode } from "react";
 import { auth } from "../firebase/conection";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Alert } from "react-native";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase/conection";
+import { useNavigation } from "@react-navigation/native";
 type Tudo = {
     user: DateUser;
     logado: boolean;
-    Login: ({
-        email,
-        password,
+    AddAgenda: ({
+        name,
+        service,
+        date,
+        hour,
     }: {
-        email: string;
-        password: string;
+        name: string;
+        service: string;
+        date: string;
+        hour: string;
     }) => Promise<void>;
+    Login: ({
+        email, password }: { email: string; password: string; }) => Promise<void>;
 };
 
 type DateUser = {
@@ -28,6 +37,7 @@ type Children = {
 };
 
 export default function Context({ children }: Children) {
+    const navigator = useNavigation();
     const [user, setUser] = useState<DateUser>({
         email: "",
         uid: "",
@@ -54,8 +64,28 @@ export default function Context({ children }: Children) {
         }
     }
 
+    async function AddAgenda({
+        name,
+        service,
+        date,
+        hour,
+    }: {
+        name: string;
+        service: string;
+        date: string;
+        hour: string;
+    }) {
+        const data = await addDoc(collection(db, "agendas"), {
+            name,
+            service,
+            date,
+            hour,
+        });
+        navigator.goBack();
+    }
+
     return (
-        <AuthContext.Provider value={{ user, logado, Login }}>
+        <AuthContext.Provider value={{ user, logado, Login, AddAgenda }}>
             {children}
         </AuthContext.Provider>
     );

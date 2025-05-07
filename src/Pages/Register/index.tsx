@@ -15,7 +15,6 @@ import { useContext } from 'react';
 import { AuthContext } from '../../contextApi/context';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase/conection'
-import { ka } from 'date-fns/locale';
 
 export default function Login() {
     const { user, Login } = useContext(AuthContext)
