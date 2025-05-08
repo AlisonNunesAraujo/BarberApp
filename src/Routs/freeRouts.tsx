@@ -24,12 +24,12 @@ export default function FreeRouts() {
             <StackRouts.Screen
                 name="CretaeAgendas"
                 component={CretaeAgendas}
-                options={{ headerShown: false, animation: 'fade_from_bottom' }}
+                options={{ headerShown: false, animation: 'ios_from_right' }}
             />
             <StackRouts.Screen
                 name="ViewAgendas"
                 component={ViewAgendas}
-                options={{ headerShown: false, animation: 'fade_from_bottom' }}
+                options={{ headerShown: false, animation: 'ios_from_right' }}
             />
         </StackRouts.Navigator>
     );

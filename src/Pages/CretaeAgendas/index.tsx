@@ -21,11 +21,12 @@ export default function CretaeAgendas() {
   const [hour, setHour] = useState("");
 
   async function Add() {
+    Keyboard.dismiss();
     if (name === "" || service === "" || date === "" || hour === "") {
       Alert.alert("Preencha todos os campos");
       return;
     }
-    Keyboard.dismiss();
+
     await AddAgenda({ name, service, date, hour });
   }
 
