@@ -7,12 +7,14 @@ import {
   TextInput,
   SafeAreaView,
   Keyboard,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import { AuthContext } from "../../contextApi/context";
 import { Alert } from "react-native";
 import { TextInputMask } from 'react-native-masked-text'
+
 export default function CretaeAgendas() {
   const navigation = useNavigation();
   const { AddAgenda } = useContext(AuthContext);
@@ -68,6 +70,13 @@ export default function CretaeAgendas() {
           <Text style={s.textButtons}>Voltar para a Home</Text>
         </TouchableOpacity>
       </View>
+
+      {/* <View style={s.Aprensation}>
+        <Image
+          source={require("../../../assets/imgView.jpeg")}
+          style={s.imgApresentation}
+        />
+      </View> */}
     </SafeAreaView>
   );
 }
@@ -75,15 +84,17 @@ export default function CretaeAgendas() {
 const s = StyleSheet.create({
   CretaeAgendas: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#fff2ff",
   },
 
   form: {
-    width: "100%",
+    width: "90%",
     height: "auto",
-    gap: 20,
+    gap: 30,
     backgroundColor: "black",
     marginTop: 20,
+    marginLeft: "5%",
+    borderRadius: 15,
   },
   title: {
     color: "#ffffff",
@@ -91,6 +102,8 @@ const s = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "serif",
     textAlign: "center",
+    marginBottom: 10,
+    marginTop: 20,
   },
   input: {
     width: "90%",
@@ -115,5 +128,16 @@ const s = StyleSheet.create({
     fontFamily: "Arial",
     fontSize: 15,
     fontWeight: "700",
+  },
+  Aprensation: {
+    flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imgApresentation: {
+    width: "90%",
+    height: "80%",
+    borderRadius: 30,
   },
 });

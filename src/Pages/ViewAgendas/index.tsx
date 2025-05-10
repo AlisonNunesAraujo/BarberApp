@@ -10,14 +10,12 @@ import {
 } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../../contextApi/context";
-
 export default function ViewAgendas() {
     const { agendas, DeleteAgenda } = useContext(AuthContext);
 
     async function Delete(uid: string) {
         DeleteAgenda(uid);
     }
-
     return (
         <SafeAreaView style={s.ViewAgendas}>
             <View style={s.render}>
@@ -51,9 +49,8 @@ export default function ViewAgendas() {
                                     Voçe não tem agendas marcadas!
                                 </Text>
                             </View>
-                        )
+                        );
                     }}
-
                 />
             </View>
         </SafeAreaView>
@@ -63,7 +60,7 @@ export default function ViewAgendas() {
 const s = StyleSheet.create({
     ViewAgendas: {
         flex: 1,
-        backgroundColor: "black",
+        backgroundColor: "white",
     },
     render: {
         width: "100%",
@@ -72,7 +69,7 @@ const s = StyleSheet.create({
         marginTop: 20,
     },
     title: {
-        color: "white",
+        color: "black",
         fontSize: 20,
         fontWeight: "bold",
         fontFamily: "Arial",
@@ -81,11 +78,12 @@ const s = StyleSheet.create({
     renderList: {
         width: "100%",
         height: "auto",
+        backgroundColor: "white",
     },
     areaRender: {
         width: "90%",
         height: "auto",
-        backgroundColor: "green",
+        backgroundColor: "#000600",
         borderRadius: 5,
         marginTop: 20,
         marginLeft: "5%",

@@ -44,19 +44,19 @@ export default function Context({ children }: Children) {
                         valor: doc.data().valor,
                         uid: doc.id,
                     });
-                    setAgendas(lista);
+
                 });
+                setAgendas(lista);
             });
         }
         GetAgendas();
-    }, [DeleteAgenda, AddAgenda]);
+    }, [DeleteAgenda, AddAgenda, navigator]);
 
     async function DeleteAgenda(uid: string) {
         const data = doc(db, "agendas", uid);
         await deleteDoc(data)
             .then(() => {
                 Alert.alert("Agenda excluida com sucesso");
-                navigator.goBack();
             })
             .catch((error) => {
                 Alert.alert("Erro ao excluir agenda");
@@ -109,7 +109,6 @@ export default function Context({ children }: Children) {
                 date,
                 valor,
             });
-            navigator.goBack();
         } catch (error) {
             Alert.alert("Erro ao criar agenda");
             console.log(error);

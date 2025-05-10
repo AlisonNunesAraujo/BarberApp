@@ -51,7 +51,7 @@ export default function Login() {
 
     return (
         <SafeAreaView style={s.Register} >
-            <StatusBar barStyle={'light-content'} />
+            <StatusBar barStyle="light-content" />
             {isFocuslogin ? (
                 <View style={s.form}>
                     <Text style={s.title}>Crie uma conta </Text>
