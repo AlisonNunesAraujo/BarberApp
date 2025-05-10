@@ -12,28 +12,29 @@ import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import { AuthContext } from "../../contextApi/context";
 import { Alert } from "react-native";
+import { TextInputMask } from 'react-native-masked-text'
 export default function CretaeAgendas() {
   const navigation = useNavigation();
   const { AddAgenda } = useContext(AuthContext);
   const [name, setName] = useState("");
   const [service, setService] = useState("");
   const [date, setDate] = useState("");
-  const [hour, setHour] = useState("");
+  const [valor, setValor] = useState("");
 
   async function Add() {
     Keyboard.dismiss();
-    if (name === "" || service === "" || date === "" || hour === "") {
+    if (name === "" || service === "" || date === "" || valor === "") {
       Alert.alert("Preencha todos os campos");
       return;
     }
 
-    await AddAgenda({ name, service, date, hour });
+    await AddAgenda({ name, service, date, valor });
   }
 
   return (
     <SafeAreaView style={s.CretaeAgendas}>
       <View style={s.form}>
-        <Text style={s.title}>CretaeAgendas</Text>
+        <Text style={s.title}>Adicionar um novo agendamento!</Text>
         <TextInput
           placeholder="Nome do cliente"
           value={name}
@@ -46,16 +47,18 @@ export default function CretaeAgendas() {
           onChangeText={setService}
           style={s.input}
         />
-        <TextInput
+        <TextInputMask
+          type="datetime"
           placeholder="Data do agendamento"
           value={date}
           onChangeText={setDate}
           style={s.input}
         />
-        <TextInput
-          placeholder="Horario do agendamento"
-          value={hour}
-          onChangeText={setHour}
+        <TextInputMask
+          type="money"
+          placeholder="Valor do servico"
+          value={valor}
+          onChangeText={setValor}
           style={s.input}
         />
         <TouchableOpacity style={s.buttons} onPress={Add}>
@@ -79,15 +82,15 @@ const s = StyleSheet.create({
     width: "100%",
     height: "auto",
     gap: 20,
-    backgroundColor: "#000000",
+    backgroundColor: "black",
     marginTop: 20,
   },
   title: {
     color: "#ffffff",
     fontSize: 18,
     fontWeight: "bold",
-    marginLeft: 20,
     fontFamily: "serif",
+    textAlign: "center",
   },
   input: {
     width: "90%",

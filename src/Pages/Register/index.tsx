@@ -14,8 +14,7 @@ import {
 import { useContext } from 'react';
 import { AuthContext } from '../../contextApi/context';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase/conection'
-
+import { auth } from '../../firebase/conection';
 export default function Login() {
     const { user, Login } = useContext(AuthContext)
     const [isFocuslogin, setIsfocuslogin] = useState(false);

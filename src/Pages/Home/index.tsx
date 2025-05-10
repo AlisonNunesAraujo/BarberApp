@@ -21,15 +21,17 @@ export default function Home() {
 
 
             <View style={s.menu}>
-                <TouchableOpacity
-                    style={s.buttons}
-                    onPress={() => navigation.navigate('CretaeAgendas')}>
-                    <Text style={s.textButtons}>Adcionar um novo agendamento</Text>
-                </TouchableOpacity>
+                <View style={s.btns}>
+                    <TouchableOpacity
+                        style={s.buttonsAdd}
+                        onPress={() => navigation.navigate('CretaeAgendas')}>
+                        <Text style={s.textButtons}>Adcionar um novo agendamento</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={s.buttons} onPress={() => navigation.navigate('ViewAgendas')}>
-                    <Text style={s.textButtons}>Ver a sua agenda</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={s.buttons} onPress={() => navigation.navigate('ViewAgendas')}>
+                        <Text style={s.textButtons}>Ver a sua agenda</Text>
+                    </TouchableOpacity>
+                </View>
 
 
             </View>
@@ -44,23 +46,43 @@ const s = StyleSheet.create({
     },
     menu: {
         width: '100%',
-        height: '35%',
+        height: 150,
+        gap: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        gap: 20,
+    },
+    btns: {
+        width: '90%',
+        height: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+
+    },
+    buttonsAdd: {
+        width: '50%',
+        height: '75%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'green',
+        borderRadius: 7,
+
     },
     buttons: {
-        width: '90%',
-        height: '25%',
+        width: '50%',
+        height: '75%',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'blue',
-        borderRadius: 5,
-        marginTop: 20,
+        borderRadius: 7,
     },
     textButtons: {
         color: 'white',
         fontFamily: 'Arial',
         fontSize: 15,
         fontWeight: '700',
+        textAlign: 'center',
+        padding: 10,
     },
 });

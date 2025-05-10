@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from '../Pages/Home';
-import CretaeAgendas from '../Pages/CretaeAgendas';
+import CretaeAgendas from '../Pages/CreateAgendas';
 import ViewAgendas from '../Pages/ViewAgendas';
 export type Props = {
     Home: undefined;

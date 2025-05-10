@@ -6,12 +6,17 @@ import {
     FlatList,
     TouchableOpacity,
     StyleSheet,
+    Alert,
 } from "react-native";
-import { useContext } from 'react';
+import { useContext } from "react";
 import { AuthContext } from "../../contextApi/context";
 
 export default function ViewAgendas() {
-    const { agendas } = useContext(AuthContext)
+    const { agendas, DeleteAgenda } = useContext(AuthContext);
+
+    async function Delete(uid: string) {
+        DeleteAgenda(uid);
+    }
 
     return (
         <SafeAreaView style={s.ViewAgendas}>
@@ -25,12 +30,30 @@ export default function ViewAgendas() {
                             <Text style={s.textRender}>Nome: {item.name}</Text>
                             <Text style={s.textRender}>Servico: {item.service}</Text>
                             <Text style={s.textRender}>Data: {item.date}</Text>
-                            <Text style={s.textRender}>Horario: {item.hour}</Text>
-                            <TouchableOpacity style={s.bnt}>
+                            <Text style={s.textRender}>Valor: {item.valor}</Text>
+                            <TouchableOpacity style={s.bnt} onPress={() => Delete(item.uid)}>
                                 <Text style={s.textButon}>Excluir</Text>
                             </TouchableOpacity>
                         </View>
                     )}
+                    ListEmptyComponent={() => {
+                        return (
+                            <View
+                                style={{
+                                    width: "100%",
+                                    height: 50,
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    marginTop: 20,
+                                }}
+                            >
+                                <Text style={{ color: "white", fontFamily: "sans-serif" }}>
+                                    Voçe não tem agendas marcadas!
+                                </Text>
+                            </View>
+                        )
+                    }}
+
                 />
             </View>
         </SafeAreaView>
@@ -62,7 +85,7 @@ const s = StyleSheet.create({
     areaRender: {
         width: "90%",
         height: "auto",
-        backgroundColor: "blue",
+        backgroundColor: "green",
         borderRadius: 5,
         marginTop: 20,
         marginLeft: "5%",

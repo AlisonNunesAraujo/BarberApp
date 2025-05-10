@@ -7,16 +7,17 @@ export type Tudo = {
         name,
         service,
         date,
-        hour,
+        valor,
     }: {
         name: string;
         service: string;
         date: string;
-        hour: string;
+        valor: string;
     }) => Promise<void>;
     Login: ({
         email, password }: { email: string; password: string; }) => Promise<void>;
     agendas: Agenda[];
+    DeleteAgenda: (uid: string) => Promise<void>;
 };
 
 export type DateUser = {
@@ -29,7 +30,7 @@ export type Agenda = {
     name: string;
     service: string;
     date: string;
-    hour: string;
+    valor: string;
 };
 
 export type Children = {

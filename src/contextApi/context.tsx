@@ -6,6 +6,8 @@ import { Alert } from "react-native";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/conection";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { deleteDoc, doc } from "firebase/firestore";
 
 import { Agenda, DateUser, Tudo, Children } from "../contextApi/types";
 
@@ -21,6 +23,15 @@ export default function Context({ children }: Children) {
     const logado = !!user?.email && !!user?.uid;
 
     useEffect(() => {
+
+        async function GetUser() {
+            const user = await AsyncStorage.getItem("user");
+            if (user) {
+                setUser(JSON.parse(user));
+            }
+        }
+        GetUser();
+
         async function GetAgendas() {
             const data = collection(db, "agendas");
             getDocs(data).then((querySnapshot) => {
@@ -30,15 +41,27 @@ export default function Context({ children }: Children) {
                         name: doc.data().name,
                         service: doc.data().service,
                         date: doc.data().date,
-                        hour: doc.data().hour,
-                        uid: doc.data().uid,
+                        valor: doc.data().valor,
+                        uid: doc.id,
                     });
                     setAgendas(lista);
                 });
             });
         }
         GetAgendas();
-    });
+    }, [DeleteAgenda, AddAgenda]);
+
+    async function DeleteAgenda(uid: string) {
+        const data = doc(db, "agendas", uid);
+        await deleteDoc(data)
+            .then(() => {
+                Alert.alert("Agenda excluida com sucesso");
+                navigator.goBack();
+            })
+            .catch((error) => {
+                Alert.alert("Erro ao excluir agenda");
+            });
+    }
 
     async function Login({
         email,
@@ -53,6 +76,13 @@ export default function Context({ children }: Children) {
                 email: data.user.email,
                 uid: data.user.uid,
             });
+
+            const dados = {
+                email: data.user.email,
+                uid: data.user.uid,
+            }
+
+            await AsyncStorage.setItem("user", JSON.stringify(dados));
             Alert.alert("Logado com sucesso");
         } catch (error) {
             console.log(error);
@@ -64,12 +94,12 @@ export default function Context({ children }: Children) {
         name,
         service,
         date,
-        hour,
+        valor,
     }: {
         name: string;
         service: string;
         date: string;
-        hour: string;
+        valor: string;
     }) {
         try {
             const data = await addDoc(collection(db, "agendas"), {
@@ -77,7 +107,7 @@ export default function Context({ children }: Children) {
                 name,
                 service,
                 date,
-                hour,
+                valor,
             });
             navigator.goBack();
         } catch (error) {
@@ -87,7 +117,9 @@ export default function Context({ children }: Children) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, logado, Login, AddAgenda, agendas }}>
+        <AuthContext.Provider
+            value={{ user, logado, Login, AddAgenda, agendas, DeleteAgenda }}
+        >
             {children}
         </AuthContext.Provider>
     );
